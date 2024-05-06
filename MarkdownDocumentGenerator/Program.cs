@@ -37,7 +37,7 @@ namespace MarkdownDocumentGenerator
             {
                 var gitRepositoryInfo = GetRepositoryInfo(repositoryPath);
 
-                var renderMarkdownModel = new RenderMarkdownModel(typeInfo)
+                var renderMarkdownModel = new RenderDefaultMarkdownModel(typeInfo)
                 {
                     RenderProjectGitBranch = gitRepositoryInfo.branch,
                     RenderProjectGitCommitHash = gitRepositoryInfo.lastCommitHash,
@@ -45,12 +45,12 @@ namespace MarkdownDocumentGenerator
 
                 var outputMarkdownFilepath = Path.Combine(config.OutputMarkdownDirectory, $"{typeInfo.DisplayName}.md");
 
-                await RenderMarkdown(renderMarkdownModel, outputMarkdownFilepath);
+                await RenderDefaultMarkdown(renderMarkdownModel, outputMarkdownFilepath);
             }
         }
 
-        static async Task RenderMarkdown(
-            RenderMarkdownModel renderMarkdownModel,
+        static async Task RenderDefaultMarkdown(
+            RenderDefaultMarkdownModel renderMarkdownModel,
             string outputMarkdownFilepath)
         {
             var markdownTemplate = await File.ReadAllTextAsync("DefaultMarkdownTemplate.cshtml");
@@ -63,7 +63,7 @@ namespace MarkdownDocumentGenerator
             Console.WriteLine($"Finish RenderMarkdown {renderMarkdownModel.TypeInfo.DisplayName}");
         }
 
-        public class RenderMarkdownModel(TypeInfo typeInfo)
+        public class RenderDefaultMarkdownModel(TypeInfo typeInfo)
         {
             public TypeInfo TypeInfo { get; } = typeInfo;
 
