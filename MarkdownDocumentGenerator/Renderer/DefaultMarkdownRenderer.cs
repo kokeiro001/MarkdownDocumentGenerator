@@ -25,7 +25,7 @@ namespace MarkdownDocumentGenerator.Renderer
         {
             var markdownTemplate = await File.ReadAllTextAsync("DefaultMarkdownTemplate.cshtml");
             var razorEngine = new RazorEngine();
-            var template = razorEngine.Compile(markdownTemplate);
+            var template = await razorEngine.CompileAsync(markdownTemplate);
 
             var gitRepositoryInfo = GetRepositoryInfo(repositoryPath);
 
