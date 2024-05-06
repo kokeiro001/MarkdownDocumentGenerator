@@ -1,7 +1,7 @@
 ﻿using LibGit2Sharp;
 using RazorEngineCore;
 
-namespace MarkdownDocumentGenerator
+namespace MarkdownDocumentGenerator.Renderer
 {
     public class DefaultMarkdownRenderer
     {
