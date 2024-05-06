@@ -10,7 +10,7 @@ namespace MarkdownDocumentGenerator
         {
             Symbol = classSymbol;
 
-            var docComment = classSymbol.GetDocumentationCommentXml() ?? "";
+            var docComment = Symbol.GetDocumentationCommentXml() ?? "";
             documentationComment = new DocumentationComment(docComment);
         }
 
