@@ -46,7 +46,7 @@ namespace MarkdownDocumentGenerator
                     Console.WriteLine($"{typeSymbol.Name} inherits from {targetBaseTypeName}");
 
                     var typeInfo = new TypeInfo(typeSymbol);
-                    typeInfo.CollectProperties(maxPropertyTypeCollectDepth);
+                    typeInfo.AnalyzeSymbol(maxPropertyTypeCollectDepth);
                     result.Add(typeInfo);
                 }
             }

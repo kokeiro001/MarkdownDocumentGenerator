@@ -46,19 +46,30 @@ namespace MarkdownDocumentGenerator
         public IReadOnlyList<EnumInfo> AssociationEnums => associationEnums;
         private readonly List<EnumInfo> associationEnums = [];
 
-        public void CollectProperties(int maxDepth)
+        public void AnalyzeSymbol(int maxDepth)
         {
             // 再帰的に呼び出す
-            InternalCollectProperties(Symbol, 0, maxDepth);
+            InternalAnalyzeSymbol(Symbol, 0, maxDepth);
         }
 
-        private void InternalCollectProperties(INamedTypeSymbol baseSymbol, int currentDepth, int maxDepth)
+        private void InternalAnalyzeSymbol(INamedTypeSymbol baseSymbol, int currentDepth, int maxDepth)
         {
             if (currentDepth > maxDepth)
             {
                 return;
             }
 
+            CollectProperties(baseSymbol);
+
+            // プロパティとして取得した型の関連情報を取得する
+            foreach (var propertyInfo in properties)
+            {
+                HandleSymbolByTypeKind(propertyInfo.Symbol.Type, baseSymbol, currentDepth, maxDepth);
+            }
+        }
+
+        private void CollectProperties(INamedTypeSymbol baseSymbol)
+        {
             INamedTypeSymbol? currentSymbol = baseSymbol;
 
             while (currentSymbol != null)
@@ -82,12 +93,6 @@ namespace MarkdownDocumentGenerator
 
                 // 継承元のクラスのプロパティも取得する
                 currentSymbol = currentSymbol.BaseType;
-            }
-
-            // プロパティとして取得した型の関連情報を取得する
-            foreach (var propertyInfo in properties)
-            {
-                HandleSymbolByTypeKind(propertyInfo.Symbol.Type, baseSymbol, currentDepth, maxDepth);
             }
         }
 
@@ -132,7 +137,7 @@ namespace MarkdownDocumentGenerator
             {
                 // この型を直接情報として追加する
                 associationTypes.Add(typeInfo);
-                typeInfo.InternalCollectProperties(typeInfo.Symbol, currentDepth + 1, maxDepth);
+                typeInfo.InternalAnalyzeSymbol(typeInfo.Symbol, currentDepth + 1, maxDepth);
             }
 
             // List<T>とかジェネリックの場合、直接のNamespaceがSystemだったりするのでTの情報で判断する必要がある
