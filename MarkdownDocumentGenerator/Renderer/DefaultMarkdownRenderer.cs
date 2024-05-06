@@ -3,12 +3,6 @@ using RazorEngineCore;
 
 namespace MarkdownDocumentGenerator.Renderer
 {
-    public enum RenderingType
-    {
-        Default,
-        Request,
-    }
-
     public class DefaultMarkdownRenderer : IMarkdownRenderer
     {
         private static readonly TimeZoneInfo jstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
