@@ -61,16 +61,26 @@ namespace MarkdownDocumentGenerator
 
             INamedTypeSymbol? currentSymbol = baseSymbol;
 
-            // 継承元のクラスのプロパティも取得する
             while (currentSymbol != null)
             {
+                // / プロパティを取得する
                 foreach (var propertySymbol in currentSymbol.GetMembers().OfType<IPropertySymbol>())
                 {
                     var propertyInfo = new PropertyInfo(propertySymbol);
 
+                    // すでに追加済みのプロパティはスキップする(abstractとかあると発生する)
+                    var isExistsPropety = properties.Any(x =>
+                        (x.DisplayTypeName, x.DisplayName) == (propertyInfo.DisplayTypeName, propertyInfo.DisplayName));
+
+                    if (isExistsPropety)
+                    {
+                        continue;
+                    }
+
                     properties.Add(propertyInfo);
                 }
 
+                // 継承元のクラスのプロパティも取得する
                 currentSymbol = currentSymbol.BaseType;
             }
 
