@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0042: 変数の宣言を分解
+dotnet_diagnostic.IDE0042.severity = none
