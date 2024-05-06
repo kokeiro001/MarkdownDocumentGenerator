@@ -1,6 +1,6 @@
 ﻿namespace MarkdownDocumentGenerator.Test
 {
-    public class PropertyTypeParseTest(TypeInfoFixture typeInfoFixture) : IClassFixture<TypeInfoFixture>
+    public class PropertyParseTest(TypeInfoFixture typeInfoFixture) : IClassFixture<TypeInfoFixture>
     {
         [Theory]
         [InlineData("DTO.Player", "Name", "string")]
