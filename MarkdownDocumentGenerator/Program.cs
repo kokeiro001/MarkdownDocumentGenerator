@@ -53,7 +53,7 @@ namespace MarkdownDocumentGenerator
             RenderMarkdownModel renderMarkdownModel,
             string outputMarkdownFilepath)
         {
-            var markdownTemplate = await File.ReadAllTextAsync("MarkdownTemplate.cshtml");
+            var markdownTemplate = await File.ReadAllTextAsync("DefaultMarkdownTemplate.cshtml");
             var razorEngine = new RazorEngine();
             var template = razorEngine.Compile(markdownTemplate);
 
