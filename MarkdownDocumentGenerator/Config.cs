@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using MarkdownDocumentGenerator.Renderer;
 
 namespace MarkdownDocumentGenerator
 {
@@ -10,6 +11,8 @@ namespace MarkdownDocumentGenerator
         public string ProjectPath { get; init; } = "";
 
         public string OutputMarkdownDirectory { get; init; } = "";
+
+        public RenderingType RenderingType { get; init; }
 
         public static void Validate([NotNull] Config? config)
         {

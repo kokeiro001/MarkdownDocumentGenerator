@@ -33,13 +33,23 @@ namespace MarkdownDocumentGenerator
 
             var repositoryPath = Repository.Discover(Path.GetDirectoryName(config.ProjectPath));
 
-            var renderer = new DefaultMarkdownRenderer();
+            var renderer = GetRenderer(config.RenderingType);
 
             foreach (var typeInfo in typeInfos)
             {
                 var outputMarkdownFilepath = Path.Combine(config.OutputMarkdownDirectory, $"{typeInfo.DisplayName}.md");
                 await renderer.RenderMarkdown(typeInfo, repositoryPath, outputMarkdownFilepath);
             }
+        }
+
+        private static IMarkdownRenderer GetRenderer(RenderingType renderingType)
+        {
+            return renderingType switch
+            {
+                RenderingType.Default => new DefaultMarkdownRenderer(),
+                //RenderingType.Request => new RequestMarkdownRenderer(),
+                _ => throw new NotSupportedException($"{renderingType} is not supported."),
+            };
         }
     }
 }

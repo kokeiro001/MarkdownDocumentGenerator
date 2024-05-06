@@ -3,7 +3,13 @@ using RazorEngineCore;
 
 namespace MarkdownDocumentGenerator.Renderer
 {
-    public class DefaultMarkdownRenderer
+    public enum RenderingType
+    {
+        Default,
+        Request,
+    }
+
+    public class DefaultMarkdownRenderer : IMarkdownRenderer
     {
         private static readonly TimeZoneInfo jstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
 
@@ -18,7 +24,7 @@ namespace MarkdownDocumentGenerator.Renderer
             public string RenderProjectGitCommitHash { get; init; } = "";
         }
 
-        public async Task RenderMarkdown(
+        public async ValueTask RenderMarkdown(
             TypeInfo typeInfo,
             string repositoryPath,
             string outputMarkdownFilepath)
