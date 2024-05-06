@@ -45,5 +45,23 @@
 
             Assert.Equal(expectedDisplayTypeName, targetPropertyInfo.DisplayTypeName);
         }
+
+        [Fact]
+        public void PropertyNotDuplicateTest()
+        {
+            var duplicatedProperties = typeInfoFixture.TypeInfos
+                .SelectMany(typeInfo =>
+                {
+                    return typeInfo.Properties
+                        .Select(property => (typeInfo.FullName, property.DisplayTypeName, property.DisplayName))
+                        .ToArray();
+                })
+                .GroupBy(x => (x.FullName, x.DisplayTypeName, x.DisplayName))
+                .Where(x => x.Count() > 1)
+                .Select(x => x.Key)
+                .ToArray();
+
+            Assert.Empty(duplicatedProperties);
+        }
     }
 }
