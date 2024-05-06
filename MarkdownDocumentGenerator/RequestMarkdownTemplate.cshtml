@@ -1,0 +1,125 @@
+﻿# @Model.TypeInfo.DisplayName
+
+## 概要
+
+@Model.TypeInfo.Summary.Replace("\n", "<br>")
+
+@if (!string.IsNullOrEmpty(Model.TypeInfo.Remarks))
+{
+    @("### 備考\n")
+    @("\n")
+    @(@Model.TypeInfo.Remarks + "\n")
+}
+## プロパティ
+
+| 型名 | 名前 | 説明 | 備考 |
+| ---: | ---- | ---- | ---- |
+@foreach (var property in @Model.TypeInfo.Properties)
+{
+    string record = string.Join(" | ", [$"`{property.DisplayTypeName}`", $"`{property.DisplayName}`", property.Summary, property.Remarks]);
+    record = record.Replace("\n", "<br>");
+    @("| " + record + " |\n")
+}
+
+@if (@Model.TypeInfo.AssociationTypes.Count > 0)
+{
+    @("---\n\n")
+
+    @("## 関連クラス/構造体\n\n")
+
+    @foreach (var associationClass in @Model.TypeInfo.AssociationTypes)
+    {
+        @($"### {associationClass.DisplayName}\n")
+        @("\n")
+
+        @("### 概要\n")
+        @("\n")
+        @($"{@associationClass.Summary}\n")
+        @("\n")
+
+        @if (!string.IsNullOrEmpty(associationClass.Remarks))
+        {
+            @("#### 備考\n")
+            @("\n")
+            @($"{associationClass.Remarks}\n")
+            @("\n")
+        }
+
+        @("### プロパティ\n")
+        @("\n")
+
+        @("| 型名 | 名前 | 説明 | 備考 |\n")
+        @("| ---: | ---- | ---- | ---- |\n")
+
+        @foreach (var property in associationClass.Properties)
+        {
+            string record = string.Join(" | ", [$"`{property.DisplayTypeName}`", $"`{property.DisplayName}`", property.Summary, property.Remarks]);
+            record = record.Replace("\n", "<br>");
+            @("| " + record + " |\n")
+        }
+
+        var isLast = Model.TypeInfo.AssociationTypes[Model.TypeInfo.AssociationTypes.Count - 1] == associationClass;
+
+        @if(!isLast)
+        {
+            @("\n")
+            @("---\n\n")
+        }
+    }
+}
+
+@if (@Model.TypeInfo.AssociationEnums.Count > 0)
+{
+    @("---\n\n")
+
+    @("## 関連Enum\n\n")
+
+    @foreach (var associationEnum in @Model.TypeInfo.AssociationEnums)
+    {
+        @($"### {associationEnum.DisplayName}\n")
+        @("\n")
+
+        @("### 概要\n")
+        @("\n")
+        @($"{associationEnum.Summary}\n")
+        @("\n")
+
+        @if (!string.IsNullOrEmpty(associationEnum.Remarks))
+        {
+            @("#### 備考\n")
+            @("\n")
+            @($"{associationEnum.Remarks}\n")
+            @("\n")
+        }
+
+        @("### 値\n")
+        @("\n")
+
+        @("| 名前 | 値 | 説明 | 備考 |\n")
+        @("| ---: | -- | ---- | ---- |\n")
+
+        @foreach (var enumValue in associationEnum.Values)
+        {
+            string record = string.Join(" | ", [$"`{enumValue.DisplayName}`", $"`{enumValue.Value}`", enumValue.Summary, enumValue.Remarks]);
+            record = record.Replace("\n", "<br>");
+            @("| " + record + " |\n")
+        }
+
+        var isLast = Model.TypeInfo.AssociationEnums[Model.TypeInfo.AssociationEnums.Count - 1] == associationEnum;
+
+        @if(!isLast)
+        {
+            @("\n")
+            @("---\n\n")
+        }
+    }
+}
+---
+
+## ドキュメント生成時情報
+
+| 名前 | 値 |
+| ---: | ---- |
+| 生成日時 | @Model.RenderDateTime.ToString("yyyy/MM/dd HH:mm:ss") |
+| gitブランチ名 | @Model.RenderProjectGitBranch |
+| git最終コミットhash | @Model.RenderProjectGitCommitHash |

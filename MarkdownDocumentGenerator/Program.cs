@@ -47,7 +47,7 @@ namespace MarkdownDocumentGenerator
             return renderingType switch
             {
                 RenderingType.Default => new DefaultMarkdownRenderer(),
-                //RenderingType.Request => new RequestMarkdownRenderer(),
+                RenderingType.Request => new RequestMarkdownRenderer(),
                 _ => throw new NotSupportedException($"{renderingType} is not supported."),
             };
         }
