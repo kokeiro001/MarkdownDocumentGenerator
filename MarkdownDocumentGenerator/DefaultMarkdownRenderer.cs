@@ -5,7 +5,7 @@ namespace MarkdownDocumentGenerator
 {
     public class DefaultMarkdownRenderer
     {
-        private static TimeZoneInfo jstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+        private static readonly TimeZoneInfo jstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
 
         public class RenderMarkdownModel(TypeInfo typeInfo)
         {
