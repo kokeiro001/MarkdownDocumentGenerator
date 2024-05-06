@@ -1,8 +1,16 @@
 ﻿namespace DTO
 {
+    public enum RequestType
+    {
+        Food,
+    }
+
 
     public abstract class RequestBase : DTOBase
     {
+        public abstract RequestType RequestType { get; }
+
+        public RequestResult Result { get; set; }
     }
 
     public enum RequestResult
@@ -31,6 +39,8 @@
     /// </summary>
     public class RequestFood : RequestBase
     {
+        public override RequestType RequestType => RequestType.Food;
+
         /// <summary>
         /// 食べ物名。
         /// 一品までだよ。
