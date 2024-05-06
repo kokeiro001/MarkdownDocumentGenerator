@@ -14,7 +14,7 @@
 
             Assert.Single(targetTypeInfo.AssociationTypes);
 
-            var associationType = targetTypeInfo.AssociationTypes.First();
+            var associationType = targetTypeInfo.AssociationTypes[0];
 
             Assert.Equal(expectedAssociationTypeName, associationType.DisplayName);
         }
@@ -31,7 +31,7 @@
 
             Assert.Single(targetTypeInfo.AssociationEnums);
 
-            var associationEnum = targetTypeInfo.AssociationEnums.First();
+            var associationEnum = targetTypeInfo.AssociationEnums[0];
 
             Assert.Equal(expectedAssociationEnumName, associationEnum.DisplayName);
         }
